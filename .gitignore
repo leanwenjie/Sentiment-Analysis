@@ -1,0 +1,9 @@
+# Ignore dataset
+emotion_sentimen_dataset.csv
+
+# Ignore python cache
+__pycache__/
+*.pyc
+
+# Ignore local streamlit configuration
+.streamlit/
