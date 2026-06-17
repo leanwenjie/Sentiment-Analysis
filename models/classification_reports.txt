@@ -1,0 +1,36 @@
+=== Sentiment Classification Report ===
+Best Parameters: {'tfidf__ngram_range': (1, 2), 'tfidf__max_features': 20000, 'clf__C': 1.0}
+
+              precision    recall  f1-score   support
+
+    negative       0.94      0.82      0.88     14585
+     neutral       0.41      0.80      0.54      2982
+    positive       0.94      0.88      0.91     15433
+
+    accuracy                           0.85     33000
+   macro avg       0.77      0.84      0.78     33000
+weighted avg       0.90      0.85      0.86     33000
+
+
+=== Emotion Classification Report ===
+Best Parameters: {'tfidf__ngram_range': (1, 2), 'tfidf__max_features': 20000, 'clf__C': 1.0}
+
+              precision    recall  f1-score   support
+
+       anger       0.98      0.99      0.98      4000
+     boredom       1.00      1.00      1.00      4000
+       empty       0.90      0.89      0.90      4000
+  enthusiasm       1.00      0.99      0.99      4000
+         fun       0.99      0.98      0.99      4000
+   happiness       0.92      0.85      0.89      5614
+        hate       0.96      0.88      0.92      4000
+        love       0.98      0.98      0.98      4000
+     neutral       0.31      0.78      0.45      1108
+      relief       0.97      0.94      0.96      4000
+     sadness       0.95      0.82      0.88      5278
+    surprise       1.00      0.99      0.99      4000
+       worry       1.00      1.00      1.00      4000
+
+    accuracy                           0.93     52000
+   macro avg       0.92      0.93      0.92     52000
+weighted avg       0.95      0.93      0.94     52000

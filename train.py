@@ -2,7 +2,7 @@ import os
 import json
 import pandas as pd
 import joblib
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, RandomizedSearchCV
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import Pipeline
@@ -92,17 +92,34 @@ def train_and_save():
         test_size=0.2, random_state=42, stratify=df_sent_balanced['Sentiment']
     )
     
-    print("Training Sentiment model (fit_intercept=False)...")
+    print("Training Sentiment model with Hyperparameter Tuning...")
     sent_pipeline = Pipeline([
-        ('tfidf', TfidfVectorizer(max_features=20000, ngram_range=(1, 3), stop_words='english')),
+        ('tfidf', TfidfVectorizer(stop_words='english')),
         ('clf', LogisticRegression(max_iter=1000, fit_intercept=False, class_weight='balanced', random_state=42))
     ])
-    sent_pipeline.fit(X_train_s, y_train_s)
+    
+    param_distributions = {
+        'tfidf__max_features': [10000, 20000, 30000],
+        'tfidf__ngram_range': [(1, 2), (1, 3)],
+        'clf__C': [0.1, 1.0, 10.0]
+    }
+    
+    sent_search = RandomizedSearchCV(
+        sent_pipeline, param_distributions, n_iter=3, cv=3, 
+        scoring='f1_macro', n_jobs=-1, random_state=42, verbose=2
+    )
+    sent_search.fit(X_train_s, y_train_s)
+    
+    print(f"Best Sentiment Parameters: {sent_search.best_params_}")
+    sent_pipeline = sent_search.best_estimator_
     
     y_pred_s = sent_pipeline.predict(X_test_s)
     sent_report = classification_report(y_test_s, y_pred_s, output_dict=True)
+    sent_report['best_params'] = sent_search.best_params_
+    
     print("Sentiment Classification Report:")
-    print(classification_report(y_test_s, y_pred_s))
+    sent_report_str = classification_report(y_test_s, y_pred_s)
+    print(sent_report_str)
     
     print("Saving Sentiment Pipeline...")
     joblib.dump(sent_pipeline, 'models/sentiment_pipeline.joblib')
@@ -150,17 +167,28 @@ def train_and_save():
         test_size=0.2, random_state=42, stratify=df_em_balanced['Emotion']
     )
     
-    print("Training Emotion model (fit_intercept=False)...")
+    print("Training Emotion model with Hyperparameter Tuning...")
     emotion_pipeline = Pipeline([
-        ('tfidf', TfidfVectorizer(max_features=25000, ngram_range=(1, 3), stop_words='english')),
+        ('tfidf', TfidfVectorizer(stop_words='english')),
         ('clf', LogisticRegression(max_iter=1000, fit_intercept=False, class_weight='balanced', random_state=42))
     ])
-    emotion_pipeline.fit(X_train_e, y_train_e)
+    
+    em_search = RandomizedSearchCV(
+        emotion_pipeline, param_distributions, n_iter=3, cv=3, 
+        scoring='f1_macro', n_jobs=-1, random_state=42, verbose=2
+    )
+    em_search.fit(X_train_e, y_train_e)
+    
+    print(f"Best Emotion Parameters: {em_search.best_params_}")
+    emotion_pipeline = em_search.best_estimator_
     
     y_pred_e = emotion_pipeline.predict(X_test_e)
     emotion_report = classification_report(y_test_e, y_pred_e, output_dict=True)
+    emotion_report['best_params'] = em_search.best_params_
+    
     print("Emotion Classification Report:")
-    print(classification_report(y_test_e, y_pred_e))
+    emotion_report_str = classification_report(y_test_e, y_pred_e)
+    print(emotion_report_str)
     
     print("Saving Emotion Pipeline...")
     joblib.dump(emotion_pipeline, 'models/emotion_pipeline.joblib')
@@ -186,6 +214,14 @@ def train_and_save():
     
     with open('models/training_metadata.json', 'w') as f:
         json.dump(metadata, f, indent=4)
+        
+    with open('models/classification_reports.txt', 'w') as f:
+        f.write("=== Sentiment Classification Report ===\n")
+        f.write(f"Best Parameters: {sent_search.best_params_}\n\n")
+        f.write(sent_report_str)
+        f.write("\n\n=== Emotion Classification Report ===\n")
+        f.write(f"Best Parameters: {em_search.best_params_}\n\n")
+        f.write(emotion_report_str)
         
     print("\n=== Training Completed Successfully! ===")
     print("Saved pipeline artifacts to the 'models/' directory.")
