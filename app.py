@@ -23,42 +23,44 @@ st.markdown(
         --font-mono: "Oxanium", sans-serif;
         --font-sans: "Oxanium", sans-serif;
         --font-serif: "Oxanium", sans-serif;
-        --card: #292524;
-        --ring: #F97316;
-        --input: #44403C;
-        --muted: #292524;
-        --accent: #1e4252;
-        --border: #44403C;
+        --card: #111827;
+        --ring: #22C55E;
+        --input: #1E293B;
+        --muted: #1E293B;
+        --accent: #0B1120;
+        --border: #334155;
         --radius: 0.3rem;
-        --chart-1: #F97316;
-        --chart-2: #0EA5E9;
-        --chart-3: #EAB308;
-        --chart-4: #A8A29E;
-        --chart-5: #78716C;
-        --popover: #292524;
-        --primary: #F97316;
-        --sidebar: #292524;
-        --secondary: #57534E;
-        --background: #1C1917;
-        --foreground: #F5F5F4;
-        --destructive: #DC2626;
-        --sidebar-ring: #F97316;
-        --sidebar-accent: #0EA5E9;
-        --sidebar-border: #44403C;
-        --card-foreground: #F5F5F4;
-        --sidebar-primary: #F97316;
-        --muted-foreground: #A8A29E;
-        --accent-foreground: #E7E5E4;
-        --popover-foreground: #F5F5F4;
+        --chart-1: #22C55E;
+        --chart-2: #94A3B8;
+        --chart-3: #EF4444;
+        --chart-4: #06B6D4;
+        --chart-5: #FACC15;
+        --popover: #111827;
+        --primary: #22C55E;
+        --sidebar: #111827;
+        --secondary: #1E293B;
+        --background: #0F172A;
+        --foreground: #F8FAFC;
+        --destructive: #EF4444;
+        --sidebar-ring: #22C55E;
+        --sidebar-accent: #0B1120;
+        --sidebar-border: #334155;
+        --card-foreground: #F8FAFC;
+        --sidebar-primary: #22C55E;
+        --muted-foreground: #CBD5E1;
+        --accent-foreground: #F8FAFC;
+        --popover-foreground: #F8FAFC;
         --primary-foreground: #FFFFFF;
-        --sidebar-foreground: #F5F5F4;
-        --secondary-foreground: #E7E5E4;
+        --sidebar-foreground: #F8FAFC;
+        --secondary-foreground: #CBD5E1;
         --destructive-foreground: #FFFFFF;
-        --sidebar-accent-foreground: #0C2A4D;
+        --sidebar-accent-foreground: #F8FAFC;
         --sidebar-primary-foreground: #FFFFFF;
-        --positive: var(--chart-3);
+        --plot-background: #0B1120;
+        --grid: #334155;
+        --positive: #22C55E;
         --negative: var(--destructive);
-        --neutral: var(--chart-4);
+        --neutral: #94A3B8;
         --shadow-color: hsl(0 0% 5%);
         --shadow-opacity: 0.18;
         --shadow-offset-x: 0px;
@@ -154,9 +156,9 @@ st.markdown(
     }
 
     .badge-positive {
-        background-color: color-mix(in srgb, var(--chart-3) 16%, transparent);
-        border: 1px solid var(--chart-3);
-        color: var(--chart-3);
+        background-color: color-mix(in srgb, var(--positive) 16%, transparent);
+        border: 1px solid var(--positive);
+        color: var(--positive);
     }
 
     .badge-negative {
@@ -166,8 +168,8 @@ st.markdown(
     }
 
     .badge-neutral {
-        background-color: color-mix(in srgb, var(--chart-4) 16%, transparent);
-        border: 1px solid var(--chart-4);
+        background-color: color-mix(in srgb, var(--neutral) 16%, transparent);
+        border: 1px solid var(--neutral);
         color: var(--neutral);
     }
 
@@ -291,25 +293,25 @@ st.markdown(
 
 
 SENTIMENT_COLORS = {
-    "positive": "#EAB308",
-    "negative": "#DC2626",
-    "neutral": "#A8A29E",
+    "positive": "#22C55E",
+    "neutral": "#94A3B8",
+    "negative": "#EF4444",
 }
 
 EMOTION_INFO = {
-    "neutral": {"color": "#A8A29E", "sentiment": "neutral"},
-    "love": {"color": "#F97316", "sentiment": "positive"},
-    "happiness": {"color": "#EAB308", "sentiment": "positive"},
-    "sadness": {"color": "#0EA5E9", "sentiment": "negative"},
-    "relief": {"color": "#F97316", "sentiment": "positive"},
-    "hate": {"color": "#DC2626", "sentiment": "negative"},
-    "anger": {"color": "#B45309", "sentiment": "negative"},
-    "fun": {"color": "#CA8A04", "sentiment": "positive"},
-    "enthusiasm": {"color": "#F97316", "sentiment": "positive"},
-    "surprise": {"color": "#0EA5E9", "sentiment": "neutral"},
-    "empty": {"color": "#78716C", "sentiment": "negative"},
-    "worry": {"color": "#A8A29E", "sentiment": "negative"},
-    "boredom": {"color": "#78716C", "sentiment": "neutral"},
+    "happiness": {"color": "#FACC15", "sentiment": "positive"},
+    "love": {"color": "#EC4899", "sentiment": "positive"},
+    "relief": {"color": "#14B8A6", "sentiment": "positive"},
+    "fun": {"color": "#F97316", "sentiment": "positive"},
+    "enthusiasm": {"color": "#A855F7", "sentiment": "positive"},
+    "sadness": {"color": "#3B82F6", "sentiment": "negative"},
+    "anger": {"color": "#DC2626", "sentiment": "negative"},
+    "hate": {"color": "#7F1D1D", "sentiment": "negative"},
+    "worry": {"color": "#F59E0B", "sentiment": "negative"},
+    "empty": {"color": "#64748B", "sentiment": "negative"},
+    "surprise": {"color": "#06B6D4", "sentiment": "neutral"},
+    "boredom": {"color": "#A3A3A3", "sentiment": "neutral"},
+    "neutral": {"color": "#94A3B8", "sentiment": "neutral"},
 }
 
 EXAMPLES = [
@@ -364,12 +366,12 @@ def make_bar_chart(data, x, y, title, colors, height=300, orientation="v"):
         height=height,
         margin=dict(l=10, r=10, t=44, b=10),
         paper_bgcolor="rgba(0,0,0,0)",
-        plot_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="#0B1120",
         showlegend=False,
-        font=dict(color="#F5F5F4"),
+        font=dict(color="#F8FAFC"),
         title_font=dict(size=15),
     )
-    fig.update_xaxes(showgrid=True, gridcolor="#44403C", zeroline=False)
+    fig.update_xaxes(showgrid=True, gridcolor="#334155", zeroline=False)
     fig.update_yaxes(showgrid=False, zeroline=False)
     return fig
 
@@ -452,7 +454,7 @@ with tab1:
             sent_confidence = sent_probs[list(sent_classes).index(sent_pred)]
             em_confidence = em_probs[list(em_classes).index(em_pred)]
             em_meta = EMOTION_INFO.get(
-                em_pred, {"color": "#A8A29E", "sentiment": "neutral"}
+                em_pred, {"color": "#94A3B8", "sentiment": "neutral"}
             )
 
             st.markdown(
