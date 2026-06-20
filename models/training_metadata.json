@@ -203,18 +203,18 @@
     ],
     "sentiment_mapping": {
         "positive": [
-            "fun",
-            "love",
-            "relief",
+            "happiness",
             "enthusiasm",
-            "happiness"
+            "relief",
+            "fun",
+            "love"
         ],
         "negative": [
-            "worry",
             "empty",
-            "sadness",
+            "hate",
             "anger",
-            "hate"
+            "sadness",
+            "worry"
         ],
         "neutral": [
             "neutral",

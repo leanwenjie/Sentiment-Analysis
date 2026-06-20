@@ -185,9 +185,8 @@ st.sidebar.info(
 )
 
 # Set tabs
-tab1, tab2, tab3, tab4 = st.tabs([
+tab1, tab2, tab3 = st.tabs([
     "🔍 Single Sentence Analyzer",
-    "📁 Batch Document Predictor",
     "📊 Dataset Diagnostics (Handling Imbalance)",
     "📈 Model performance (Metrics)"
 ])
@@ -315,100 +314,9 @@ with tab1:
         st.info("Write a sentence or choose an example from the dropdown above to start classification!")
 
 # ==========================================
-# TAB 2: BATCH DOCUMENT PREDICTOR
+# TAB 2: DATASET DIAGNOSTICS (CLASS IMBALANCE HANDLING)
 # ==========================================
 with tab2:
-    st.markdown("### Batch Processing & Upload")
-    st.write("Upload a CSV file containing columns of text to perform mass classifications in one run.")
-    
-    uploaded_file = st.file_uploader("Upload CSV or Excel file", type=["csv", "xlsx"])
-    
-    if uploaded_file is not None:
-        try:
-            if uploaded_file.name.endswith('.csv'):
-                batch_df = pd.read_csv(uploaded_file)
-            else:
-                batch_df = pd.read_excel(uploaded_file)
-                
-            st.success("File uploaded successfully!")
-            
-            # Column selector
-            text_col = st.selectbox(
-                "Select column containing the sentences:",
-                options=batch_df.columns,
-                index=0
-            )
-            
-            num_rows = len(batch_df)
-            st.write(f"Total entries to process: `{num_rows}`")
-            
-            if st.button("🚀 Process Batch Data"):
-                with st.spinner("Classifying texts, please wait..."):
-                    # Process text arrays
-                    texts = batch_df[text_col].fillna("").astype(str).tolist()
-                    
-                    # Sentiment Predictions
-                    sent_preds = sent_pipeline.predict(texts)
-                    sent_probs = sent_pipeline.predict_proba(texts)
-                    sent_scores = [probs[list(sent_pipeline.classes_).index(pred)] for pred, probs in zip(sent_preds, sent_probs)]
-                    
-                    # Emotion Predictions
-                    em_preds = em_pipeline.predict(texts)
-                    em_probs = em_pipeline.predict_proba(texts)
-                    em_scores = [probs[list(em_pipeline.classes_).index(pred)] for pred, probs in zip(em_preds, em_probs)]
-                    
-                    # Store Results
-                    batch_df['Predicted_Sentiment'] = sent_preds
-                    batch_df['Sentiment_Confidence'] = sent_scores
-                    batch_df['Predicted_Emotion'] = em_preds
-                    batch_df['Emotion_Confidence'] = em_scores
-                    
-                st.success("Completed classification!")
-                
-                # Show results in a preview
-                st.markdown("#### Output Preview (Top 100 rows)")
-                st.dataframe(batch_df.head(100), use_container_width=True)
-                
-                # Visualizations
-                st.markdown("#### Batch Summary Visualizations")
-                col_b1, col_b2 = st.columns(2)
-                
-                with col_b1:
-                    fig_b_sent = px.pie(
-                        batch_df,
-                        names='Predicted_Sentiment',
-                        title="Batch Sentiment Distribution",
-                        color='Predicted_Sentiment',
-                        color_discrete_map={'positive': '#2ecc71', 'negative': '#e74c3c', 'neutral': '#95a5a6'}
-                    )
-                    st.plotly_chart(fig_b_sent, use_container_width=True)
-                    
-                with col_b2:
-                    fig_b_em = px.histogram(
-                        batch_df,
-                        x='Predicted_Emotion',
-                        title="Batch Emotion Distribution",
-                        color='Predicted_Emotion',
-                        color_discrete_map={k: v['color'] for k, v in EMOTION_INFO.items()}
-                    )
-                    st.plotly_chart(fig_b_em, use_container_width=True)
-                
-                # Download button
-                csv_data = batch_df.to_csv(index=False).encode('utf-8')
-                st.download_button(
-                    label="📥 Download Labeled CSV File",
-                    data=csv_data,
-                    file_name="sentiment_emotion_predictions.csv",
-                    mime="text/csv"
-                )
-                
-        except Exception as e:
-            st.error(f"Error processing file: {e}")
-
-# ==========================================
-# TAB 3: DATASET DIAGNOSTICS (CLASS IMBALANCE HANDLING)
-# ==========================================
-with tab3:
     st.markdown("### How We Handled Class Imbalance")
     st.write(
         "The original dataset suffers from severe class imbalance: `neutral` sentences constitute **80.3%** of all samples. "
@@ -481,7 +389,7 @@ with tab3:
         )
         fig_bal_em.update_layout(yaxis={'categoryorder':'total ascending'}, height=450)
         st.plotly_chart(fig_bal_em, use_container_width=True)
-
+ 
     st.markdown("""
     > [!TIP]
     > **Imbalance Handling Technique:**
@@ -490,9 +398,9 @@ with tab3:
     """)
 
 # ==========================================
-# TAB 4: MODEL PERFORMANCE (METRICS)
+# TAB 3: MODEL PERFORMANCE (METRICS)
 # ==========================================
-with tab4:
+with tab3:
     st.markdown("### Classification Evaluation Reports")
     st.write("Below are the standard metrics measured on hold-out validation sets (20% of the balanced distributions).")
     

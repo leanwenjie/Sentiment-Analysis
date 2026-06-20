@@ -9,7 +9,6 @@ This project implements robust, mathematical solutions to handle **severe class 
 ## 🚀 Key Features
 
 *   **🔍 Single Sentence Analyzer**: Real-time evaluation of custom sentences showing confidence gauge metrics and horizontal probability distributions using Plotly.
-*   **📁 Batch Document Predictor**: Upload large CSV files, mass-classify them, visualize aggregate class results, and download the annotated CSV.
 *   **📊 Dataset Diagnostics**: Side-by-side interactive bar charts illustrating the dataset distribution before and after class balancing.
 *   **📈 Model Performance**: Detailed classification reports displaying Precision, Recall, and F1-Scores for all classes (validated on holdout testing sets).
 
