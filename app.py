@@ -191,6 +191,12 @@ st.markdown(
         width: 0.8rem;
     }
 
+    .emotion-emoji {
+        flex: 0 0 auto;
+        font-size: 1.45rem;
+        line-height: 1;
+    }
+
     .emotion-name {
         font-size: 1.05rem;
         font-weight: 650;
@@ -299,19 +305,19 @@ SENTIMENT_COLORS = {
 }
 
 EMOTION_INFO = {
-    "happiness": {"color": "#FACC15", "sentiment": "positive"},
-    "love": {"color": "#EC4899", "sentiment": "positive"},
-    "relief": {"color": "#14B8A6", "sentiment": "positive"},
-    "fun": {"color": "#F97316", "sentiment": "positive"},
-    "enthusiasm": {"color": "#A855F7", "sentiment": "positive"},
-    "sadness": {"color": "#3B82F6", "sentiment": "negative"},
-    "anger": {"color": "#DC2626", "sentiment": "negative"},
-    "hate": {"color": "#7F1D1D", "sentiment": "negative"},
-    "worry": {"color": "#F59E0B", "sentiment": "negative"},
-    "empty": {"color": "#64748B", "sentiment": "negative"},
-    "surprise": {"color": "#06B6D4", "sentiment": "neutral"},
-    "boredom": {"color": "#A3A3A3", "sentiment": "neutral"},
-    "neutral": {"color": "#94A3B8", "sentiment": "neutral"},
+    "happiness": {"emoji": "😊", "color": "#FACC15", "sentiment": "positive"},
+    "love": {"emoji": "❤️", "color": "#EC4899", "sentiment": "positive"},
+    "relief": {"emoji": "😌", "color": "#14B8A6", "sentiment": "positive"},
+    "fun": {"emoji": "😄", "color": "#F97316", "sentiment": "positive"},
+    "enthusiasm": {"emoji": "🤩", "color": "#A855F7", "sentiment": "positive"},
+    "sadness": {"emoji": "😢", "color": "#3B82F6", "sentiment": "negative"},
+    "anger": {"emoji": "😠", "color": "#DC2626", "sentiment": "negative"},
+    "hate": {"emoji": "😡", "color": "#7F1D1D", "sentiment": "negative"},
+    "worry": {"emoji": "😟", "color": "#F59E0B", "sentiment": "negative"},
+    "empty": {"emoji": "🫥", "color": "#64748B", "sentiment": "negative"},
+    "surprise": {"emoji": "😮", "color": "#06B6D4", "sentiment": "neutral"},
+    "boredom": {"emoji": "🥱", "color": "#A3A3A3", "sentiment": "neutral"},
+    "neutral": {"emoji": "😐", "color": "#94A3B8", "sentiment": "neutral"},
 }
 
 EXAMPLES = [
@@ -454,7 +460,7 @@ with tab1:
             sent_confidence = sent_probs[list(sent_classes).index(sent_pred)]
             em_confidence = em_probs[list(em_classes).index(em_pred)]
             em_meta = EMOTION_INFO.get(
-                em_pred, {"color": "#94A3B8", "sentiment": "neutral"}
+                em_pred, {"emoji": "🤔", "color": "#94A3B8", "sentiment": "neutral"}
             )
 
             st.markdown(
@@ -474,6 +480,7 @@ with tab1:
                     <div class="result-label">Emotion</div>
                     <div class="emotion-card">
                         <span class="emotion-marker" style="background: {em_meta['color']};"></span>
+                        <span class="emotion-emoji" aria-hidden="true">{em_meta['emoji']}</span>
                         <span class="emotion-name" style="color: {em_meta['color']};">{em_pred}</span>
                     </div>
                     <div class="confidence-line">Confidence: <strong>{em_confidence:.2%}</strong></div>
