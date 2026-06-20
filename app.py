@@ -79,6 +79,30 @@ st.markdown(
         font-family: var(--font-sans) !important;
     }
 
+    span[data-testid="stIconMaterial"],
+    .material-icons,
+    .material-icons-round,
+    .material-icons-rounded,
+    .material-symbols-rounded,
+    .material-symbols-outlined,
+    .material-symbols-sharp,
+    [class^="material-symbols"],
+    [class*=" material-symbols"] {
+        direction: ltr;
+        display: inline-block;
+        font-family: "Material Symbols Rounded", "Material Symbols Outlined", "Material Icons" !important;
+        font-feature-settings: "liga";
+        font-style: normal;
+        font-weight: normal;
+        letter-spacing: normal;
+        line-height: 1;
+        text-transform: none;
+        white-space: nowrap;
+        word-wrap: normal;
+        -webkit-font-feature-settings: "liga";
+        -webkit-font-smoothing: antialiased;
+    }
+
     .stApp {
         background: var(--background);
         color: var(--foreground);
