@@ -1,0 +1,18 @@
+# Sentiment & Emotion Analysis Dashboard
+# Python 3.13+
+
+# Core ML
+scikit-learn==1.6.1
+joblib==1.5.1
+numpy==2.2.6
+pandas==2.2.3
+
+# NLP
+nltk==3.9.4
+
+# Dashboard
+streamlit==1.45.1
+plotly==6.1.2
+
+# Excel support (batch upload in app.py)
+openpyxl==3.1.5
